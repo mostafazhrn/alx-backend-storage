@@ -1,0 +1,1 @@
+this is a readme file for the task 0x00-MySQL_Advanced for the alx softwqare engneeering back end program which consists of 11 mandatory tasks and 2 advanced
