@@ -1,0 +1,2 @@
+// THis script shall show databases in mongo
+show dbs;
