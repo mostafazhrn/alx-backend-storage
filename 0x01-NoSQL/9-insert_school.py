@@ -4,6 +4,6 @@ from pymongo import MongoClient
 
 
 def insert_school(mongo_collection, **kwargs):
-    """ This instance shall insert new document in collection usin kwargs"""
-    nuevo_id = mongo_collection.insert(kwargs)
-    return neuvo_id
+    """ This instance shall insert document in collection based on kwargs"""
+    nuevo_id = mongo_collection.insert_one(kwargs)
+    return nuevo_id.inserted_id
