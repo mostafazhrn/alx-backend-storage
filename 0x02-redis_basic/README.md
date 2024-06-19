@@ -1,0 +1,1 @@
+this is areadme file for the task 0x02-redis_basic for the alx software engeneering program (backend specialization) which consists of 5 mandatory tasks and 1 advanced 
