@@ -18,3 +18,25 @@ class Cache:
         cle = str(uuid.uuid4())
         self._redis.set(cle, data)
         return cle
+
+    def get(self, key: str,
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+        """ This shall convert redis data to wanted format """
+        donne = self._redis.get(key)
+        if fn:
+            return fn(donne)
+        return donne
+
+    def get_str(self, cle: str) -> str:
+        """ This shall convert redis data to string """
+        donne = self._redis.get(cle)
+        return donne.decode('utf-8')
+
+    def get_int(self, cle: str) -> int:
+        """ This shall convert redis data to int """
+        donne = self._redis.get(cle)
+        try:
+            donne = int(value.decode('utf-8'))
+        except Exception:
+            donne = 0
+        return donne
