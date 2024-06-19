@@ -2,7 +2,7 @@
 """ this script shall obtain an html content from a webpage """
 import requests
 import redis
-x= redis.Redis()
+x = redis.Redis()
 compte = 0
 
 
@@ -13,3 +13,7 @@ def get_page(url: str) -> str:
     x.incr(f"count:{url}")
     x.setex(f"cached:{url}", 10, x.get(f"count:{url}"))
     return rspo.text
+
+
+if __name__ == "__main__":
+    get_page('http://slowwly.robertomurray.co.uk')
