@@ -6,6 +6,18 @@ import uuid
 from functools import wraps
 
 
+def count_calls(method: Callable) -> Callable:
+    """ This shall count the number of calls of a method """
+    cle = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs) -> Any:
+        """ This shall wrap the method """
+        self._redis.incr(cle)
+        return method(self, *args, **kwargs)
+    return wrapper
+
+
 class Cache:
     """This shall represent the Cache class """
     def __init__(self):
