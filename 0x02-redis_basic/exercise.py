@@ -6,6 +6,22 @@ import uuid
 from functools import wraps
 
 
+def call_history(method: Callable) -> Callable:
+    """ This shall store the history of calls of a method """
+    cle = method.__qualname__
+    ios = cle + ":inputs"
+    outs = cle + ":outputs"
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs) -> Any:
+        """ This shall wrap the method """
+        self._redis.rpush(ios, str(args))
+        donne = method(self, *args, **kwargs)
+        self._redis.rpush(outs, str(donne))
+        return donne
+    return wrapper
+
+
 def count_calls(method: Callable) -> Callable:
     """ This shall count the number of calls of a method """
     cle = method.__qualname__
@@ -25,6 +41,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """ This shall store the data in redis cache """
