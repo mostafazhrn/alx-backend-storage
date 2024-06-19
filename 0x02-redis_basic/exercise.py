@@ -70,3 +70,19 @@ class Cache:
         except Exception:
             donne = 0
         return donne
+
+
+def replay(method: Callable):
+    """ This shall replay the history of calls of a method """
+    cle = method.__qualname__
+    ios = cle + ":inputs"
+    outs = cle + ":outputs"
+    redis = method.__self__._redis
+    compte = redis.get(cle).decode('utf-8')
+    print("{} was called {} times:".format(cle, compte))
+    ios_lst = redis.lrange(ios, 0, -1)
+    outs_lst = redis.lrange(outs, 0, -1)
+    redis_zip = list(zip(ios_lst, outs_lst))
+    for x, y in redis_zip:
+        attribute, donne = x.decode('utf-8'), y.decode('utf-8')
+        print("{}(*{}) -> {}".format(cle, attribute, donne))
